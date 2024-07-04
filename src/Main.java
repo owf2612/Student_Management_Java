@@ -15,6 +15,7 @@ public class Main {
                     "                                                                   |___/                               ";
 
     public static void main(String[] args) {
+        System.out.println(TITLE);
         StudentManager manager = new StudentManager();
         Scanner scanner = new Scanner(System.in);
 
