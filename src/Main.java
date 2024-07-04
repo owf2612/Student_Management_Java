@@ -15,13 +15,11 @@ public class Main {
                     "                                                                   |___/                               ";
 
     public static void main(String[] args) {
-        System.out.println(TITLE);
-        System.out.println();
-
         StudentManager manager = new StudentManager();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            System.out.println("Menu:");
             System.out.println("1. Add Student");
             System.out.println("2. Edit Student");
             System.out.println("3. Delete Student");
@@ -30,19 +28,19 @@ public class Main {
             System.out.println("6. Display Students");
             System.out.println("7. Save to File");
             System.out.println("8. Load from File");
-            System.out.println("9. Exit");
-
-            System.out.print("Enter your choice: ");
+            System.out.println("0. Exit");
+            System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // consume the newline
-
-            if (choice == 9) break;
 
             switch (choice) {
+                case 0:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
                 case 1:
                     System.out.print("Enter ID: ");
                     int id = scanner.nextInt();
-                    scanner.nextLine(); // consume the newline
+                    scanner.nextLine();  // Consume newline
                     System.out.print("Enter Name: ");
                     String name = scanner.nextLine();
                     System.out.print("Enter Marks: ");
@@ -52,14 +50,14 @@ public class Main {
                 case 2:
                     System.out.print("Enter ID: ");
                     int editId = scanner.nextInt();
-                    scanner.nextLine(); // consume the newline
-                    System.out.print("Enter Name: ");
+                    scanner.nextLine();  // Consume newline
+                    System.out.print("Enter new Name: ");
                     String editName = scanner.nextLine();
-                    System.out.print("Enter Marks: ");
+                    System.out.print("Enter new Marks: ");
                     double editMarks = scanner.nextDouble();
                     boolean editSuccess = manager.editStudent(editId, editName, editMarks);
                     if (editSuccess) {
-                        System.out.println("Student edited successfully.");
+                        System.out.println("Student updated successfully.");
                     } else {
                         System.out.println("Student ID not found.");
                     }
@@ -85,8 +83,19 @@ public class Main {
                     }
                     break;
                 case 5:
-                    manager.sortStudentsByMarks();
-                    System.out.println("Students sorted by marks.");
+                    System.out.println("1. Bubble Sort");
+                    System.out.println("2. Quick Sort");
+                    System.out.print("Choose sorting method: ");
+                    int sortChoice = scanner.nextInt();
+                    if (sortChoice == 1) {
+                        manager.bubbleSort();
+                        System.out.println("Students sorted by Bubble Sort.");
+                    } else if (sortChoice == 2) {
+                        manager.quickSort();
+                        System.out.println("Students sorted by Quick Sort.");
+                    } else {
+                        System.out.println("Invalid choice! Try again.");
+                    }
                     break;
                 case 6:
                     manager.displayStudents();
@@ -101,14 +110,11 @@ public class Main {
                     System.out.print("Enter filename: ");
                     String loadFilename = scanner.next();
                     manager.loadFromFile(loadFilename);
-                    System.out.println("Students loaded from " + loadFilename);
                     break;
                 default:
                     System.out.println("Invalid choice! Try again.");
             }
             System.out.println();
         }
-
-        scanner.close();
     }
 }
