@@ -32,7 +32,7 @@ public class Student {
     }
 
     public String toFormattedString() {
-        return String.format("| %-10d | %-20s | %-6.2f | %-10s |", id, name, marks, getRank());
+        return String.format("| %-10d | %-22s | %-6.2f | %-10s |", id, name, marks, getRank());
     }
 
     @Override

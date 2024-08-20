@@ -24,7 +24,7 @@ public class Main {
             System.out.println("1. Add Student");
             System.out.println("2. Edit Student");
             System.out.println("3. Delete Student");
-            System.out.println("4. Search Student");
+            System.out.println("4. Search Student by ID");
             System.out.println("5. Sort Students by Marks");
             System.out.println("6. Display Students");
             System.out.println("7. Save to File");
@@ -34,84 +34,117 @@ public class Main {
             int choice = scanner.nextInt();
 
             switch (choice) {
-                case 0:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
                 case 1:
-                    System.out.print("Enter ID: ");
+                    System.out.print("Enter student ID: ");
                     int id = scanner.nextInt();
-                    scanner.nextLine();  // Consume newline
-                    System.out.print("Enter Name: ");
+                    scanner.nextLine();  // consume newline
+                    System.out.print("Enter student name: ");
                     String name = scanner.nextLine();
-                    System.out.print("Enter Marks: ");
+                    System.out.print("Enter student marks: ");
                     double marks = scanner.nextDouble();
                     manager.addStudent(id, name, marks);
+                    System.out.println("Student added.");
                     break;
+
                 case 2:
-                    System.out.print("Enter ID: ");
-                    int editId = scanner.nextInt();
-                    scanner.nextLine();  // Consume newline
-                    System.out.print("Enter new Name: ");
-                    String editName = scanner.nextLine();
-                    System.out.print("Enter new Marks: ");
-                    double editMarks = scanner.nextDouble();
-                    boolean editSuccess = manager.editStudent(editId, editName, editMarks);
-                    if (editSuccess) {
-                        System.out.println("Student updated successfully.");
+                    System.out.print("Enter student ID to edit: ");
+                    id = scanner.nextInt();
+                    scanner.nextLine();  // consume newline
+                    System.out.print("Enter new name: ");
+                    name = scanner.nextLine();
+                    System.out.print("Enter new marks: ");
+                    marks = scanner.nextDouble();
+                    if (manager.editStudent(id, name, marks)) {
+                        System.out.println("Student details updated.");
                     } else {
-                        System.out.println("Student ID not found.");
+                        System.out.println("Student not found.");
                     }
                     break;
+
                 case 3:
-                    System.out.print("Enter ID: ");
-                    int deleteId = scanner.nextInt();
-                    boolean deleteSuccess = manager.deleteStudent(deleteId);
-                    if (deleteSuccess) {
-                        System.out.println("Student deleted successfully.");
+                    System.out.print("Enter student ID to delete: ");
+                    id = scanner.nextInt();
+                    if (manager.deleteStudent(id)) {
+                        System.out.println("Student deleted.");
                     } else {
-                        System.out.println("Student ID not found.");
+                        System.out.println("Student not found.");
                     }
                     break;
+
                 case 4:
-                    System.out.print("Enter ID: ");
+                    System.out.println("Search by:");
+                    System.out.println("1. Hash Method");
+                    System.out.println("2. Linear Search");
+                    System.out.print("Choose a search method: ");
+                    int searchChoice = scanner.nextInt();
+                    System.out.print("Enter student ID to search: ");
                     int searchId = scanner.nextInt();
-                    Student student = manager.searchStudent(searchId);
-                    if (student != null) {
-                        System.out.println(student);
+                    Student student = null;
+
+                    if (searchChoice == 1) {
+                        student = manager.hashSearchByID(searchId);
+                    } else if (searchChoice == 2) {
+                        student = manager.linearSearchByID(searchId);
                     } else {
-                        System.out.println("Student not found!");
+                        System.out.println("Invalid search method choice!");
+                    }
+
+                    if (student != null) {
+                        System.out.println("Student found: " + student);
+                    } else {
+                        System.out.println("Student not found.");
                     }
                     break;
+
                 case 5:
-                    System.out.println("1. Bubble Sort");
-                    System.out.println("2. Quick Sort");
+                    System.out.println("1. Tim Sort");
+                    System.out.println("2. Bubble Sort");
+                    System.out.println("3. Quick Sort");
+                    System.out.println("4. Merge Sort");
+                    System.out.println("5. Heap Sort");
                     System.out.print("Choose sorting method: ");
                     int sortChoice = scanner.nextInt();
                     if (sortChoice == 1) {
+                        manager.timSort();
+                        System.out.println("Students sorted by Tim Sort.");
+                    } else if (sortChoice == 2) {
                         manager.bubbleSort();
                         System.out.println("Students sorted by Bubble Sort.");
-                    } else if (sortChoice == 2) {
+                    } else if (sortChoice == 3) {
                         manager.quickSort();
                         System.out.println("Students sorted by Quick Sort.");
+                    } else if (sortChoice == 4) {
+                        manager.mergeSort();
+                        System.out.println("Students sorted by Merge Sort.");
+                    } else if (sortChoice == 5) {
+                        manager.heapSort();
+                        System.out.println("Students sorted by Heap Sort.");
                     } else {
                         System.out.println("Invalid choice! Try again.");
                     }
                     break;
+
                 case 6:
                     manager.displayStudents();
                     break;
+
                 case 7:
                     System.out.print("Enter filename: ");
                     String saveFilename = scanner.next();
                     manager.saveToFile(saveFilename);
                     System.out.println("Students saved to " + saveFilename);
                     break;
+
                 case 8:
                     System.out.print("Enter filename: ");
                     String loadFilename = scanner.next();
                     manager.loadFromFile(loadFilename);
                     break;
+
+                case 0:
+                    System.out.println("Exiting...");
+                    return;
+
                 default:
                     System.out.println("Invalid choice! Try again.");
             }
